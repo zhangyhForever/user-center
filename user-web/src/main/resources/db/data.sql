@@ -1,0 +1,2 @@
+INSERT INTO t_user_center (id, username, pwd, email, phone, create_time, update_time, is_delete) VALUES (default , '11111', 'aaaaaaaaa', '111112@mail.com', 111111111112, '2022-10-14 15:31:04', '2022-10-14 16:08:00', 0);
+INSERT INTO t_user_center (id, username, pwd, email, phone, create_time, update_time, is_delete) VALUES (default , '22222', '', '222222@mail.com', 222222222222, '2022-10-14 15:31:04', '2022-10-14 16:08:00', 0);

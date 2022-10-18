@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.forever.user.mybatis.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.forever.user.mybatis.entity.UserDO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="pwd" property="pwd" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, username, pwd, email, phone, create_time, update_time
+    </sql>
+
+    <insert id="insert" parameterType="com.forever.user.mybatis.dao.UserMapper" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user_center(username, email, phone) values
+        <foreach collection="list" item="item" separator=",">
+           (#{item.username}, #{item.email}, #{item.phone})
+        </foreach>
+    </insert>
+
+    <update id="delete">
+        update t_user_center set is_delete = 1, update_time = now()
+        where id in
+        <foreach collection="list" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="update" parameterType="com.forever.user.mybatis.entity.UserDO">
+        update t_user_center
+        set pwd = #{pwd},
+            email = #{email},
+            phone = #{phone},
+            update_time = now()
+        where id = #{id}
+    </update>
+
+    <select id="select" resultType="com.forever.user.mybatis.entity.UserDO">
+        select <include refid="Base_Column_List"/> from t_user_center
+        where is_delete = 0
+        <if test="userDO.id != null">
+            and id = #{userDO.id}
+        </if>
+        <if test="userDO.username != null">
+            and username = #{userDO.username}
+        </if>
+        <if test="userDO.email != null">
+            and email = #{userDO.email}
+        </if>
+        <if test="userDO.phone != null">
+            and phone = #{userDO.phone}
+        </if>
+        limit #{start}, #{limit}
+    </select>
+
+</mapper>
