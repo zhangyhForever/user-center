@@ -41,14 +41,14 @@ public class UserController {
         return ResponseResult.OK("success");
     }
 
-    @ApiOperation("修改用户")
+    @ApiOperation("查询用户")
     @GetMapping("/select")
-    public ResponseResult selectUser(@RequestBody @Valid UserQuery userReq) {
+    public ResponseResult selectUser(@Valid UserQuery userReq) {
         List<UserResp> userResps = userService.select(userReq);
         return ResponseResult.OK(userResps);
     }
 
-    @ApiOperation("修改用户")
+    @ApiOperation("删除用户")
     @PostMapping("/delete")
     public ResponseResult delUser(@RequestBody List<Long> userIds) {
         userService.delete(userIds);
