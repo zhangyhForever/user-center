@@ -7,6 +7,9 @@ import com.forever.user.web.vo.req.UserReq;
 import com.forever.user.web.vo.resp.UserResp;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,9 +58,22 @@ public class UserController {
         return ResponseResult.OK("success");
     }
 
-    @GetMapping("/error/test")
-    public String errorTest() {
-        throw new RuntimeException("运行时异常");
+    @Resource
+    JavaMailSender javaMailSender;
+
+    @Value("${application.mail.enable:false}")
+    private boolean mailEnable;
+
+    @GetMapping("/mail/test")
+    public String mailSend() {
+        System.out.println(mailEnable);
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom("568902364@qq.com");
+        simpleMailMessage.setSubject("测试邮件");
+        simpleMailMessage.setText("hahahahahahaha");
+        simpleMailMessage.setTo("zhangyh379@163.com");
+        javaMailSender.send(simpleMailMessage);
+        return "success";
     }
 
 }

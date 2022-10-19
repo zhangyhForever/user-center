@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM eclipse-temurin:17-jdk-jammy
+FROM openjdk:8u191-jdk-alpine
 WORKDIR /app
 COPY *.jar /user-center.jar
 CMD ["--server.port=8080"]

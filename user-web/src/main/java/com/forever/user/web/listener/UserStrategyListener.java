@@ -1,14 +1,32 @@
 package com.forever.user.web.listener;
 
 import com.forever.user.mybatis.entity.UserDO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class UserStrategyListener implements ApplicationListener<UserStrategyEvent> {
+
+    @Resource
+    private JavaMailSender javaMailSender;
+
+    @Value("${application.mail.enable:false}")
+    private boolean mailEnable;
+
+    @Value("${application.mail.from}")
+    private String mailFrom;
+
+    @Value("${application.mail.title}")
+    private String title;
+
+    @Value("${application.mail.content}")
+    private String content;
 
     @Override
     public void onApplicationEvent(UserStrategyEvent event) {
@@ -37,8 +55,16 @@ public class UserStrategyListener implements ApplicationListener<UserStrategyEve
         if (CollectionUtils.isEmpty(userDOS)) {
             return;
         }
-        Set<String> emails = userDOS.stream().map(UserDO::getEmail).collect(Collectors.toSet());
-
+        if (!mailEnable) {
+            return;
+        }
+        String emailStrList = userDOS.stream().map(UserDO::getEmail).collect(Collectors.joining(","));
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom(mailFrom);
+        simpleMailMessage.setSubject(title);
+        simpleMailMessage.setText(content);
+        simpleMailMessage.setTo(emailStrList);
+        javaMailSender.send(simpleMailMessage);
     }
 
     private void doDeleteEvent(UserStrategyEvent event) {
