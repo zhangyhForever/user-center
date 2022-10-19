@@ -4,6 +4,7 @@ import com.forever.user.web.common.ResponseResult;
 import com.sun.mail.smtp.SMTPSendFailedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.mail.MailParseException;
 import org.springframework.mail.MailSendException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.mail.internet.AddressException;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.stream.Collectors;
@@ -54,16 +56,5 @@ public class GlobalExceptionHandler {
     public ResponseResult<String> handlerException(RuntimeException ex) {
         log.error("inner error：", ex);
         return ResponseResult.ERROR("服务内部异常");
-    }
-
-    /**
-     * 发送邮件的配置缺失异常
-     * @param ex
-     * @return
-     */
-    @ExceptionHandler(value = {MailSendException.class})
-    public ResponseResult<String> handlerSMTPException(MailSendException ex) {
-        log.error("inner error:", ex);
-        return ResponseResult.ERROR("邮箱认证未配置，请先配置认证邮箱");
     }
 }

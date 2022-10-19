@@ -8,6 +8,8 @@ import com.forever.user.web.vo.req.UserReq;
 import com.forever.user.web.service.UserService;
 import com.forever.user.web.vo.resp.UserResp;
 import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +32,7 @@ public class UserServiceImpl implements UserService {
         List<UserDO> userDOs = new ArrayList<>();
         userReqs.forEach(x -> userDOs.add(x.toDO()));
         userMapper.insert(userDOs);
-        // 发送增加用户成功事件
+        // 发送用户注册成功事件
         applicationContext.publishEvent(new UserStrategyEvent(this, userDOs, UserStrategyEvent.UserEventType.REGISTER));
     }
 

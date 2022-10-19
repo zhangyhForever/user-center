@@ -1,0 +1,39 @@
+{
+  "groups": [
+    {
+      "name": "mailSendConfig",
+      "sourceType": "com.forever.user.web.config.MailSendConfig",
+      "type": "com.forever.user.web.config.MailSendConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "mail.send.config.enable",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.forever.user.web.config.MailSendConfig",
+      "description": "是否发送邮件.",
+      "defaultValue": false
+    },
+    {
+      "name": "mail.send.config.from",
+      "type": "java.lang.String",
+      "sourceType": "com.forever.user.web.config.MailSendConfig",
+      "description": "发送邮件的账号.",
+      "defaultValue": ""
+    },
+    {
+      "name": "mail.send.config.title",
+      "type": "java.lang.String",
+      "sourceType": "com.forever.user.web.config.MailSendConfig",
+      "description": "邮件主题.",
+      "defaultValue": ""
+    },
+    {
+      "name": "mail.send.config.content",
+      "type": "java.lang.String",
+      "sourceType": "com.forever.user.web.config.MailSendConfig",
+      "description": "邮件内容.",
+      "defaultValue": ""
+    }
+  ]
+}

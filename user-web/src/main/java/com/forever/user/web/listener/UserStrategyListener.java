@@ -1,39 +1,41 @@
 package com.forever.user.web.listener;
 
 import com.forever.user.mybatis.entity.UserDO;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationListener;
+import com.forever.user.web.config.MailSendConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.event.EventListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UserStrategyListener implements ApplicationListener<UserStrategyEvent> {
+@Component
+public class UserStrategyListener {
+
+    private Logger logger = LoggerFactory.getLogger(UserStrategyListener.class);
 
     @Resource
     private JavaMailSender javaMailSender;
 
-    @Value("${application.mail.enable:false}")
-    private boolean mailEnable;
+    @Resource
+    private MailSendConfig mailSendConfig;
 
-    @Value("${application.mail.from}")
-    private String mailFrom;
-
-    @Value("${application.mail.title}")
-    private String title;
-
-    @Value("${application.mail.content}")
-    private String content;
-
-    @Override
+    @EventListener
     public void onApplicationEvent(UserStrategyEvent event) {
         UserStrategyEvent.UserEventType eventType = event.getEventType();
         switch (eventType) {
             case REGISTER:
-                doRegisterEvent(event);
+                try {
+                    doRegisterEvent(event);
+                } catch (Exception e) {
+                    logger.error("用户注册邮件发送失败！");
+                    // 补偿重发
+                }
                 break;
             case UPDATE:
                 doUpdateEvent(event);
@@ -55,14 +57,14 @@ public class UserStrategyListener implements ApplicationListener<UserStrategyEve
         if (CollectionUtils.isEmpty(userDOS)) {
             return;
         }
-        if (!mailEnable) {
+        if (!mailSendConfig.isEnable()) {
             return;
         }
         String emailStrList = userDOS.stream().map(UserDO::getEmail).collect(Collectors.joining(","));
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom(mailFrom);
-        simpleMailMessage.setSubject(title);
-        simpleMailMessage.setText(content);
+        simpleMailMessage.setFrom(mailSendConfig.getFrom());
+        simpleMailMessage.setSubject(mailSendConfig.getTitle());
+        simpleMailMessage.setText(mailSendConfig.getContent());
         simpleMailMessage.setTo(emailStrList);
         javaMailSender.send(simpleMailMessage);
     }
