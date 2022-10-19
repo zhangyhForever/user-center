@@ -57,23 +57,4 @@ public class UserController {
         userService.delete(userIds);
         return ResponseResult.OK("success");
     }
-
-    @Resource
-    JavaMailSender javaMailSender;
-
-    @Value("${application.mail.enable:false}")
-    private boolean mailEnable;
-
-    @GetMapping("/mail/test")
-    public String mailSend() {
-        System.out.println(mailEnable);
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom("568902364@qq.com");
-        simpleMailMessage.setSubject("测试邮件");
-        simpleMailMessage.setText("hahahahahahaha");
-        simpleMailMessage.setTo("zhangyh379@163.com");
-        javaMailSender.send(simpleMailMessage);
-        return "success";
-    }
-
 }

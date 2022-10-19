@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
         List<UserDO> userDOs = new ArrayList<>();
         userReqs.forEach(x -> userDOs.add(x.toDO()));
         userMapper.insert(userDOs);
+        // 发送增加用户成功事件
         applicationContext.publishEvent(new UserStrategyEvent(this, userDOs, UserStrategyEvent.UserEventType.REGISTER));
     }
 

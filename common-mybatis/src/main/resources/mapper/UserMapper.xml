@@ -16,9 +16,9 @@
     </sql>
 
     <insert id="insert" parameterType="com.forever.user.mybatis.dao.UserMapper" useGeneratedKeys="true" keyProperty="id">
-        insert into t_user_center(username, email, phone) values
+        insert into t_user_center(username, pwd, email, phone) values
         <foreach collection="list" item="item" separator=",">
-           (#{item.username}, #{item.email}, #{item.phone})
+           (#{item.username}, #{item.pwd}, #{item.email}, #{item.phone})
         </foreach>
     </insert>
 

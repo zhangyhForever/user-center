@@ -6,7 +6,6 @@
     <modules>
         <module>common-mybatis</module>
         <module>user-web</module>
-        <module>common</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -1,9 +1,9 @@
 package com.forever.user.web.vo.resp;
 
 import com.forever.user.mybatis.entity.UserDO;
-import org.apache.catalina.User;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class UserResp implements Serializable {
@@ -18,6 +18,10 @@ public class UserResp implements Serializable {
 
     private Long phone;
 
+    private LocalDateTime createTime;
+
+    private LocalDateTime updateTime;
+
     public static UserResp of(UserDO userDO) {
         if (Objects.isNull(userDO)) {
             return null;
@@ -28,6 +32,8 @@ public class UserResp implements Serializable {
         userResp.setUsername(userDO.getUsername());
         userResp.setPhone(userDO.getPhone());
         userResp.setPwd(userDO.getPwd());
+        userResp.setCreateTime(userDO.getCreateTime());
+        userResp.setUpdateTime(userDO.getUpdateTime());
         return userResp;
     }
 
@@ -71,6 +77,22 @@ public class UserResp implements Serializable {
         this.phone = phone;
     }
 
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
     public String toString() {
         return "UserResp{" +
@@ -79,6 +101,8 @@ public class UserResp implements Serializable {
                 ", pwd='" + pwd + '\'' +
                 ", email='" + email + '\'' +
                 ", phone=" + phone +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }

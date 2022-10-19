@@ -4,9 +4,6 @@ import com.forever.user.mybatis.entity.UserDO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -37,7 +34,7 @@ public class UserReq implements Serializable {
         UserDO userDO = new UserDO();
         userDO.setId(this.getId());
         userDO.setUsername(this.getUsername());
-        userDO.setPwd(this.getPwd());
+        userDO.setPwd(Objects.nonNull(this.getPwd()) ? this.getPwd() : "");
         userDO.setEmail(this.getEmail());
         userDO.setPhone(this.getPhone());
         return userDO;
