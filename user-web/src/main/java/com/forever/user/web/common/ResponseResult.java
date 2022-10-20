@@ -9,7 +9,7 @@ public class ResponseResult<T> implements Serializable {
 
     private Integer code;
 
-    private Boolean success;
+    private boolean success;
 
     private String message;
 
@@ -50,12 +50,8 @@ public class ResponseResult<T> implements Serializable {
         return new ResponseResult(code, false, message, null);
     }
 
-    public Boolean getSuccess() {
+    public boolean isSuccess() {
         return success;
-    }
-
-    public void setSuccess(Boolean success) {
-        this.success = success;
     }
 
     public Integer getCode() {
