@@ -5,7 +5,6 @@ import com.forever.user.web.common.ResponseResult;
 import com.forever.user.web.vo.req.UserReq;
 import com.google.common.collect.Maps;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -15,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +23,12 @@ import java.util.Objects;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = UserCenterApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserTest {
+class UserTest {
 
     @LocalServerPort
     private int port;
 
-    @Autowired
+    @Resource
     private RestTemplateBuilder restTemplateBuilder;
 
     private ObjectMapper objectMapper = new ObjectMapper();
